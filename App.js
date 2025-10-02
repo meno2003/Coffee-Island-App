@@ -3,8 +3,18 @@ import React, { useState, useEffect, useRef } from "react";
 import { StatusBar, Animated, View, StyleSheet } from "react-native";
 import DashboardScreen from "./screens/DashboardScreen";
 import OpeningChecklistScreen from "./screens/OpeningCheckListScreen";
+import ClosingChecklistScreen from "./screens/ClosingCheckListScreen";
+import DueDiligenceAMScreen from "./screens/DueDiligenceAMScreen";
+import DueDiligencePMScreen from "./screens/DueDiligencePMScreen";
 import SplashScreen from "./screens/SplashScreen";
-import ClosingChecklistScreen from "./screens/ClosingCheckListScreen"
+import StockCheckScreen from "./screens/StockCheckScreen";
+import * as Notifications from "expo-notifications";
+import { Platform } from "react-native";
+
+
+
+  
+
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState("splash");
@@ -14,6 +24,24 @@ export default function App() {
   const dashOpacity   = useRef(new Animated.Value(0)).current;   // dashboard starts hidden
 
   useEffect(() => {
+
+    const setupNotifications = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("Please enable notifications to get expiry reminders!");
+    }
+  };
+  setupNotifications();
+
+  // For iOS, set how notifications are displayed
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+  
     const timer = setTimeout(() => {
       Animated.parallel([
         Animated.timing(splashOpacity, {
@@ -38,17 +66,30 @@ export default function App() {
   const go = (screen) => setCurrentScreen(screen);
   const back = () => setCurrentScreen("dashboard");
 
+  const renderCurrentScreen = () => {
+    switch (currentScreen) {
+      case "opening-checklist":
+        return <OpeningChecklistScreen onBack={back} />;
+      case "closing-checklist":
+        return <ClosingChecklistScreen onBack={back} />;
+      case "due-diligence-am":
+        return <DueDiligenceAMScreen onBack={back} />;
+      case "due-diligence-pm":
+        return <DueDiligencePMScreen onBack={back} />;
+      case "stock-check":
+        return <StockCheckScreen onBack={back} />;
+      default:
+        return <DashboardScreen navigateToScreen={go} />;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style={showSplash ? "dark" : "light"} />
 
       {/* Base layer: dashboard (or other main screens) */}
       <Animated.View style={[styles.fill, { opacity: dashOpacity }]}>
-        {currentScreen === "opening-checklist" ? (
-          <OpeningChecklistScreen onBack={back} />
-        ) : (
-          <DashboardScreen navigateToScreen={go} />
-        )}
+        {renderCurrentScreen()}
       </Animated.View>
 
       {/* Top layer: full-screen splash overlay that crossfades out */}

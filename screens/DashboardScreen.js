@@ -9,57 +9,55 @@ export default function DashboardScreen({ navigateToScreen }) {
       </View>
 
       <View style={styles.content}>
-        <View className="section" style={styles.section}>
+      /* morning seciton */
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Morning</Text>
 
           <TouchableOpacity
             style={styles.checklistButton}
             onPress={() => navigateToScreen("opening-checklist")}
           >
+            /* Opening section checklist
             <Text style={styles.buttonText}>Opening Checklist</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={styles.checklistButton} 
-            onPress={() => navigateToScreen("morning-stock")}
-          >
-            <Text style={styles.buttonText}>Morning Stock Count</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>To allocate throughout the day</Text>
-
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.checklistButton}
             onPress={() => navigateToScreen("due-diligence-am")}
           >
             <Text style={styles.buttonText}>Due Diligence AM</Text>
           </TouchableOpacity>
+        </View>
+        /* stock section */
+        
+     
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>To allocate throughout the day</Text>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.checklistButton}
-            onPress={() => navigateToScreen("due-diligence-pm")}
+            onPress={() => navigateToScreen("stock-check")}
           >
-            <Text style={styles.buttonText}>Due Diligence PM</Text>
+            <Text style={styles.buttonText}>Stock Check</Text>
           </TouchableOpacity>
         </View>
 
+      
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Evening</Text>
 
-          <TouchableOpacity 
-            style={styles.checklistButton}
-            onPress={() => navigateToScreen("evening-stock")}
-          >
-            <Text style={styles.buttonText}>Evening Stock Count</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.checklistButton}
             onPress={() => navigateToScreen("closing-checklist")}
           >
             <Text style={styles.buttonText}>Closing Checklist</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.checklistButton}
+            onPress={() => navigateToScreen("due-diligence-pm")}
+          >
+            <Text style={styles.buttonText}>Due Diligence PM</Text>
           </TouchableOpacity>
         </View>
       </View>

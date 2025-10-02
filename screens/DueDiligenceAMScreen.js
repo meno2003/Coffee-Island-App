@@ -218,7 +218,6 @@ export default function DueDiligenceAMScreen({ onBack }) {
                       value={fridgeTemps[`fridge${fridgeNum}`]}
                       onChangeText={(value) => handleTempChange(`fridge${fridgeNum}`, value)}
                       placeholder="0"
-                      keyboardType="numeric"
                       placeholderTextColor="#999"
                     />
                     <Text style={styles.tempUnit}>°C</Text>
